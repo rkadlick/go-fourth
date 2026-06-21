@@ -7,3 +7,10 @@ src/content/blog/test-post-2.md
 src/content/blog/test-post-3.md
 src/content/blog/test-post-4.md
 src/content/blog/test-post-5.md
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
