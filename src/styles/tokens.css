@@ -1,0 +1,51 @@
+:root[data-theme="light"] {
+    --color-bg: #f2f4f3;
+    --color-text: #353535;   /* body text        11.1:1 */
+    --color-mid: #52575c;    /* section labels    6.6:1 */
+    --color-muted: #7e8286;  /* inactive UI       3.5:1 */
+    --color-accent: #4d8ed6;
+    --color-surface: #e8eef5;
+    --color-surface-strong: #d7e3f0;
+    --color-warm: #c07a3a;
+}
+
+:root[data-theme="dark"] {
+    --color-bg: #111417;
+    --color-text: #c8c8c8;   /* body text        11.0:1 */
+    --color-mid: #9ea2a6;    /* section labels    7.2:1 */
+    --color-muted: #6a6e72;  /* inactive UI       3.6:1 */
+    --color-accent: #69a7e8;
+    --color-surface: #1a2026;
+    --color-surface-strong: #24303c;
+    --color-warm: #d4956a;
+}
+
+/* === SOFT CREATIVE (inactive — swap with Cool Minimal above to use)
+
+:root[data-theme="light"] {
+    --color-bg: #f4f0f2;
+    --color-text: #1c171b;
+    --color-muted: #6c5f68;
+    --color-accent: #8b6fb3;
+    --color-link: #7a5fa3;
+    --color-link-hover: #684d90;
+    --color-surface: #eee4ec;
+    --color-surface-strong: #dcc7da;
+    --color-offset: #c9a3c3;
+    --color-focus: #9e7fca;
+}
+
+:root[data-theme="dark"] {
+    --color-bg: #151216;
+    --color-text: #f0e8ee;
+    --color-muted: #b2a3ae;
+    --color-accent: #b291d6;
+    --color-link: #c09be4;
+    --color-link-hover: #d2b3ee;
+    --color-surface: #211a22;
+    --color-surface-strong: #312535;
+    --color-offset: #7c5b8d;
+    --color-focus: #c5a3ea;
+}
+
+=== END SOFT CREATIVE === */

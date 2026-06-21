@@ -1,0 +1,72 @@
+---
+---
+
+<style>
+  .theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: "Victor Mono", ui-monospace, monospace;
+    font-size: 0.85rem;
+  }
+  .toggle-sep {
+    color: var(--color-muted);
+  }
+
+  /* Inactive: text de-emphasized but readable */
+  .toggle-btn:not(.active) {
+    color: var(--color-muted);
+  }
+  .toggle-btn:not(.active)::before,
+  .toggle-btn:not(.active)::after {
+    opacity: 0.35;
+  }
+
+  /* Active: full bracket treatment, warm color */
+  .toggle-btn.active {
+    color: var(--color-warm);
+    opacity: 1;
+  }
+  .toggle-btn.active::before,
+  .toggle-btn.active::after {
+    opacity: 1;
+  }
+
+  /* Restore inactive on hover */
+  .toggle-btn:not(.active):hover {
+    color: var(--color-warm);
+    opacity: 1;
+  }
+  .toggle-btn:not(.active):hover::before {
+    opacity: 1;
+    margin-right: 0.65em;
+  }
+  .toggle-btn:not(.active):hover::after {
+    opacity: 1;
+    margin-left: 0.65em;
+  }
+</style>
+
+<div class="theme-toggle">
+  <button class="btn toggle-btn" data-theme-value="light">light</button>
+  <span class="toggle-sep">/</span>
+  <button class="btn toggle-btn" data-theme-value="dark">dark</button>
+</div>
+
+<script is:inline>
+  function setTheme(theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+    document.querySelectorAll("[data-theme-value]").forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.themeValue === theme);
+    });
+  }
+
+  document.querySelectorAll("[data-theme-value]").forEach((btn) => {
+    btn.addEventListener("click", () => setTheme(btn.dataset.themeValue));
+  });
+
+  // Set active class on initial load
+  const current = document.documentElement.getAttribute("data-theme");
+  if (current) setTheme(current);
+</script>

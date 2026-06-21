@@ -1,0 +1,59 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  tech: string[];
+  liveUrl?: string;
+  sourceUrl?: string;
+}
+
+const { title, summary, tech, liveUrl, sourceUrl } = Astro.props;
+---
+
+<style>
+  .project {
+    margin-bottom: 2.25rem;
+  }
+
+  .project-title {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .project h2 {
+    font-family: "Victor Mono", ui-monospace, monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    margin: 0;
+  }
+
+  .project-links {
+    font-size: 0.85rem;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .project-summary {
+    margin-bottom: 0.2rem;
+  }
+
+  .tech {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+</style>
+
+<div class="project">
+  <div class="project-title">
+    <h2>{title}</h2>
+    <div class="project-links">
+      {liveUrl && <a href={liveUrl} class="btn" target="_blank" rel="noopener noreferrer">live</a>}
+      {sourceUrl && <a href={sourceUrl} class="btn" target="_blank" rel="noopener noreferrer">source</a>}
+    </div>
+  </div>
+  <p class="project-summary">{summary}</p>
+  <p class="tech">{tech.join(" | ")}</p>
+</div>

@@ -1,0 +1,66 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date) {
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const dd = String(date.getDate()).padStart(2, "0");
+  const yyyy = date.getFullYear();
+  return `${mm}-${dd}-${yyyy}`;
+}
+---
+
+<style>
+  .back {
+    display: inline-block;
+    font-family: "Victor Mono", ui-monospace, monospace;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    transition: color 0.15s ease;
+  }
+
+  .back:hover {
+    color: var(--color-warm);
+  }
+
+  .post-date {
+    font-family: "Victor Mono", ui-monospace, monospace;
+    font-size: 0.8rem;
+    color: var(--color-mid);
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-size: 1.3rem;
+    color: var(--color-accent);
+    margin-bottom: 2rem;
+  }
+
+  .post-body {
+    color: var(--color-text);
+  }
+</style>
+
+<BaseLayout title={post.data.title} description={post.data.summary}>
+  <article>
+    <a href="/blog" class="back">{"< back"}</a>
+    <p class="post-date">{formatDate(post.data.date)}</p>
+    <h1>{post.data.title}</h1>
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

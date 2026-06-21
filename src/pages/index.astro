@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+import ProjectItem from "../components/ProjectItem.astro";
+import { getCollection } from "astro:content";
+
+const allProjects = await getCollection("projects", ({ data }) => {
+  return !data.draft && !data.archived && data.featured;
+});
+
+const featured = allProjects.sort((a, b) => a.data.order - b.data.order);
+---
+
+<style>
+  section {
+    margin-bottom: 4.5rem;
+  }
+</style>
+
+<BaseLayout title="ryanK" showNav={true}>
+  <section>
+    <SectionLabel label="featured_projects" />
+    {featured.map((p) => (
+      <ProjectItem
+        title={p.data.title}
+        summary={p.data.summary}
+        tech={p.data.tech}
+        liveUrl={p.data.liveUrl}
+        sourceUrl={p.data.sourceUrl}
+      />
+    ))}
+  </section>
+
+  <section>
+    <SectionLabel label="focus" />
+    <p>I'm a full-stack web developer who loves building things that actually work. I work across the entire stack, React and Next.js on the front end and Node.js and Python on the back end, and I get genuinely excited about turning messy problems into clean solutions. I care about writing code that's easy to maintain and creating experiences that feel good to use. </p>
+    <p>Curious what comes next. Let's connect.</p>
+  </section>
+</BaseLayout>

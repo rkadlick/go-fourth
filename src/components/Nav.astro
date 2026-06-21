@@ -1,0 +1,46 @@
+---
+const path = Astro.url.pathname;
+---
+
+<style>
+  .site-nav {
+    display: flex;
+    align-items: center;
+	justify-content: center;
+    gap: 0.4rem;
+    font-family: "Victor Mono", ui-monospace, monospace;
+    font-size: 0.9rem;
+ 	margin-bottom: 3rem;
+  }
+
+  .site-nav a {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .site-nav a:hover {
+    color: var(--color-warm);
+    opacity: 1;
+  }
+
+  .site-nav a.active {
+    color: var(--color-warm);
+    opacity: 1;
+  }
+
+  .site-nav a.active::before {
+    content: "> ";
+  }
+
+  .nav-sep {
+    color: var(--color-muted);
+  }
+</style>
+
+<nav class="site-nav">
+  <a href="/" class={path === "/" ? "active" : ""}>home</a>
+  <span class="nav-sep">/</span>
+  <a href="/projects" class={path === "/projects" ? "active" : ""}>projects</a>
+  <span class="nav-sep">/</span>
+  <a href="/blog" class={path.startsWith("/blog") ? "active" : ""}>blog</a>
+</nav>

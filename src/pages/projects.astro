@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+import ProjectItem from "../components/ProjectItem.astro";
+import { getCollection } from "astro:content";
+
+const allProjects = await getCollection("projects", ({ data }) => {
+  return !data.draft && !data.archived;
+});
+const sorted = allProjects.sort((a, b) => a.data.order - b.data.order);
+const featured = sorted.filter((p) => p.data.featured);
+const more = sorted.filter((p) => !p.data.featured);
+---
+
+<style>
+  section {
+    margin-bottom: 4.5rem;
+  }
+</style>
+
+<BaseLayout title="Projects">
+  <section>
+    <SectionLabel label="featured_projects" />
+    {featured.map((p) => (
+      <ProjectItem
+        title={p.data.title}
+        summary={p.data.summary}
+        tech={p.data.tech}
+        liveUrl={p.data.liveUrl}
+        sourceUrl={p.data.sourceUrl}
+      />
+    ))}
+  </section>
+
+  <section>
+    <SectionLabel label="more_projects" />
+    {more.map((p) => (
+      <ProjectItem
+        title={p.data.title}
+        summary={p.data.summary}
+        tech={p.data.tech}
+        liveUrl={p.data.liveUrl}
+        sourceUrl={p.data.sourceUrl}
+      />
+    ))}
+  </section>
+</BaseLayout>

@@ -1,0 +1,9 @@
+.astro/
+node_modules/
+dist/
+
+src/content/blog/test-post.md
+src/content/blog/test-post-2.md
+src/content/blog/test-post-3.md
+src/content/blog/test-post-4.md
+src/content/blog/test-post-5.md
