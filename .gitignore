@@ -1,6 +1,7 @@
 .astro/
 node_modules/
 dist/
+.claude/
 
 src/content/blog/test-post.md
 src/content/blog/test-post-2.md
