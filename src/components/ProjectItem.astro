@@ -50,8 +50,8 @@ const { title, summary, tech, liveUrl, sourceUrl } = Astro.props;
   <div class="project-title">
     <h2>{title}</h2>
     <div class="project-links">
-      {liveUrl && <a href={liveUrl} class="btn" target="_blank" rel="noopener noreferrer">live</a>}
-      {sourceUrl && <a href={sourceUrl} class="btn" target="_blank" rel="noopener noreferrer">source</a>}
+      {liveUrl && <a href={liveUrl} class="key btn" target="_blank" rel="noopener noreferrer"><span class="key-label" data-label="live" style="--n: 4">live</span></a>}
+      {sourceUrl && <a href={sourceUrl} class="key btn" target="_blank" rel="noopener noreferrer"><span class="key-label" data-label="source" style="--n: 6">source</span></a>}
     </div>
   </div>
   <p class="project-summary">{summary}</p>

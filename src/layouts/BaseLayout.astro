@@ -52,5 +52,30 @@ const {
     </main>
 
     <Footer />
+
+    <script is:inline>
+      // Typewriter strike for .key controls. A class rather than :active
+      // so a quick tap still plays the whole animation.
+      (function () {
+        function strike(key) {
+          if (!key || key.matches("[aria-current], [aria-pressed='true']")) return;
+          key.classList.remove("is-struck");
+          void key.offsetWidth; // restart the animation
+          key.classList.add("is-struck");
+          clearTimeout(key._strikeTimer);
+          key._strikeTimer = setTimeout(() => key.classList.remove("is-struck"), 220);
+        }
+
+        document.addEventListener("pointerdown", (e) => {
+          strike(e.target.closest(".key"));
+        });
+
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || (e.key === " " && e.target.matches("button.key"))) {
+            strike(e.target.closest(".key"));
+          }
+        });
+      })();
+    </script>
   </body>
 </html>

@@ -1,56 +1,65 @@
 ---
+const options = ["light", "dark"];
 ---
 
 <style>
   .theme-toggle {
     display: flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: 1.1rem;
     font-family: "Victor Mono", ui-monospace, monospace;
     font-size: 0.85rem;
   }
-  .toggle-sep {
-    color: var(--color-muted);
+
+  /* ncurses-style radio: ( ) / (•) */
+  .radio {
+    color: var(--color-accent);
+    opacity: 0.7;
+    margin-right: 0.45em;
+    transition: opacity 0.15s ease;
   }
 
-  /* Inactive: text de-emphasized but readable */
-  .toggle-btn:not(.active) {
-    color: var(--color-muted);
-  }
-  .toggle-btn:not(.active)::before,
-  .toggle-btn:not(.active)::after {
-    opacity: 0.35;
+  .dot::before {
+    content: "\00a0";
   }
 
-  /* Active: full bracket treatment, warm color */
-  .toggle-btn.active {
+  /* Ghost of the selection on hover */
+  .toggle-opt:not([aria-pressed="true"]):hover .dot::before,
+  .toggle-opt:not([aria-pressed="true"]):focus-visible .dot::before {
+    content: "·";
+  }
+
+  .toggle-opt:hover .radio,
+  .toggle-opt:focus-visible .radio {
+    opacity: 1;
+  }
+
+  .toggle-opt[aria-pressed="true"] {
     color: var(--color-warm);
-    opacity: 1;
+    cursor: default;
   }
-  .toggle-btn.active::before,
-  .toggle-btn.active::after {
+
+  .toggle-opt[aria-pressed="true"] .radio {
     opacity: 1;
   }
 
-  /* Restore inactive on hover */
-  .toggle-btn:not(.active):hover {
+  .toggle-opt[aria-pressed="true"] .dot::before {
+    content: "•";
     color: var(--color-warm);
-    opacity: 1;
   }
-  .toggle-btn:not(.active):hover::before {
-    opacity: 1;
-    margin-right: 0.65em;
-  }
-  .toggle-btn:not(.active):hover::after {
-    opacity: 1;
-    margin-left: 0.65em;
+
+  .toggle-opt[aria-pressed="true"]:not(.is-struck) .key-label::after {
+    display: none;
   }
 </style>
 
-<div class="theme-toggle">
-  <button class="btn toggle-btn" data-theme-value="light">light</button>
-  <span class="toggle-sep">/</span>
-  <button class="btn toggle-btn" data-theme-value="dark">dark</button>
+<div class="theme-toggle" role="group" aria-label="Theme">
+  {options.map((opt) => (
+    <button class="key toggle-opt" data-theme-value={opt} aria-pressed="false">
+      <span class="radio" aria-hidden="true">(<span class="dot"></span>)</span>
+      <span class="key-label" data-label={opt} style={`--n: ${opt.length}`}>{opt}</span>
+    </button>
+  ))}
 </div>
 
 <script is:inline>
@@ -58,7 +67,7 @@
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
     document.querySelectorAll("[data-theme-value]").forEach((btn) => {
-      btn.classList.toggle("active", btn.dataset.themeValue === theme);
+      btn.setAttribute("aria-pressed", String(btn.dataset.themeValue === theme));
     });
   }
 
@@ -66,7 +75,7 @@
     btn.addEventListener("click", () => setTheme(btn.dataset.themeValue));
   });
 
-  // Set active class on initial load
+  // Set pressed state on initial load
   const current = document.documentElement.getAttribute("data-theme");
   if (current) setTheme(current);
 </script>

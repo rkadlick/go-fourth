@@ -1,35 +1,41 @@
 ---
 const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const links = [
+  { href: "/", label: "home", current: path === "/" },
+  { href: "/projects", label: "projects", current: path === "/projects" },
+  { href: "/blog", label: "blog", current: path.startsWith("/blog") },
+];
 ---
 
 <style>
   .site-nav {
     display: flex;
     align-items: center;
-	justify-content: center;
-    gap: 0.4rem;
+    justify-content: center;
+    gap: 0.6rem;
     font-family: "Victor Mono", ui-monospace, monospace;
     font-size: 0.9rem;
- 	margin-bottom: 3rem;
+    margin-bottom: 3rem;
   }
 
-  .site-nav a {
+  .site-nav .key {
     color: var(--color-muted);
-    text-decoration: none;
   }
 
-  .site-nav a:hover {
+  /* Current page: the prompt sits here, nothing to type */
+  .site-nav .key[aria-current="page"] {
     color: var(--color-warm);
-    opacity: 1;
+    cursor: default;
   }
 
-  .site-nav a.active {
-    color: var(--color-warm);
-    opacity: 1;
+  .site-nav .key[aria-current="page"]::before {
+    content: ">";
+    margin-right: 0.5em;
   }
 
-  .site-nav a.active::before {
-    content: "> ";
+  .site-nav .key[aria-current="page"] .key-label::after {
+    display: none;
   }
 
   .nav-sep {
@@ -38,9 +44,12 @@ const path = Astro.url.pathname.replace(/\/$/, "") || "/";
 </style>
 
 <nav class="site-nav">
-  <a href="/" class={path === "/" ? "active" : ""}>home</a>
-  <span class="nav-sep">/</span>
-  <a href="/projects" class={path === "/projects" ? "active" : ""}>projects</a>
-  <span class="nav-sep">/</span>
-  <a href="/blog" class={path.startsWith("/blog") ? "active" : ""}>blog</a>
+  {links.map((link, i) => (
+    <>
+      {i > 0 && <span class="nav-sep">/</span>}
+      <a href={link.href} class="key" aria-current={link.current ? "page" : undefined}>
+        <span class="key-label" data-label={link.label} style={`--n: ${link.label.length}`}>{link.label}</span>
+      </a>
+    </>
+  ))}
 </nav>
